@@ -20,21 +20,21 @@ type KeyValuePair[K HasOrder, V any] struct {
 }
 
 func SortedRange[K HasOrder, V any](m map[K]V) *iterator.Iterator[KeyValuePair[K, V]] {
-	pairs := make([]KeyValuePair[K, V], 0, len(m))
-	for key, val := range m {
-		pairs = append(pairs, KeyValuePair[K, V]{Key: key, Value: val})
+	keys := make([]K, 0, len(m))
+	for key1 := range m {
+		keys = append(keys, key1)
 	}
 
-	sort.Slice(pairs, func(i, j int) bool {
-		return pairs[i].Key < pairs[j].Key
+	sort.Slice(keys, func(i, j int) bool {
+		return keys[i] < keys[j]
 	})
 
 	return iterator.New(func() (KeyValuePair[K, V], error) {
-		if len(pairs) <= 0 {
+		if len(keys) <= 0 {
 			return KeyValuePair[K, V]{}, io.EOF
 		}
-		value := pairs[0]
-		pairs = pairs[1:]
+		value := KeyValuePair[K, V]{Key: keys[0], Value: m[keys[0]]}
+		keys = keys[1:]
 		return value, nil
 	})
 }
