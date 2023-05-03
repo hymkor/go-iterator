@@ -4,7 +4,9 @@
 package main
 
 import (
+	"fmt"
 	"io"
+	"os"
 	"sort"
 
 	"github.com/hymkor/go-iterator"
@@ -47,14 +49,17 @@ func main() {
 		"D": 4,
 	}
 
-	println("--- for-range ---")
+	fmt.Println("--- for-range ---")
 	for key, val := range sample {
-		println(key, val)
+		fmt.Println(key, val)
 	}
 
-	println("--- SortedRange ---")
+	fmt.Println("--- SortedRange ---")
 	p := SortedRange(sample)
 	for p.Next() {
-		println(p.Value.Key, p.Value.Value)
+		fmt.Println(p.Value.Key, p.Value.Value)
+	}
+	if err := p.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
 	}
 }

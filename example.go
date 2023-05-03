@@ -4,12 +4,14 @@
 package main
 
 import (
+	"fmt"
 	"io"
+	"os"
 
 	"github.com/hymkor/go-iterator"
 )
 
-func Seq(start, end int) *iterator.Iterator[int] {
+func NewSequence(start, end int) *iterator.Iterator[int] {
 	return iterator.New(func() (int, error) {
 		if start > end {
 			return -1, io.EOF
@@ -20,8 +22,11 @@ func Seq(start, end int) *iterator.Iterator[int] {
 }
 
 func main() {
-	seq := Seq(1, 10)
+	seq := NewSequence(1, 10)
 	for seq.Next() {
-		println(seq.Value)
+		fmt.Println(seq.Value)
+	}
+	if err := seq.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
 	}
 }
