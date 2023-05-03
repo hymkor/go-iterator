@@ -5,7 +5,6 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/hymkor/go-iterator"
@@ -14,7 +13,7 @@ import (
 func NewSequence(start, end int) *iterator.Iterator[int] {
 	return iterator.New(func() (int, error) {
 		if start > end {
-			return -1, io.EOF
+			return -1, iterator.End
 		}
 		start++
 		return start - 1, nil

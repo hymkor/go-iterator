@@ -1,8 +1,11 @@
 package iterator
 
 import (
+	"errors"
 	"io"
 )
+
+var End = errors.New("Iterator End")
 
 type Iterator[T any] struct {
 	next  func() (T, error)
@@ -23,7 +26,7 @@ func (I *Iterator[T]) Next() bool {
 
 // Err returns the first non-EOF error that was encountered by the Iterator[T]
 func (I *Iterator[T]) Err() error {
-	if I.err == io.EOF {
+	if I.err == io.EOF || I.err == End {
 		return nil
 	}
 	return I.err
