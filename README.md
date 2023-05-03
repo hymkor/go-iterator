@@ -11,7 +11,6 @@ package main
 
 import (
     "fmt"
-    "io"
     "os"
 
     "github.com/hymkor/go-iterator"
@@ -20,7 +19,7 @@ import (
 func NewSequence(start, end int) *iterator.Iterator[int] {
     return iterator.New(func() (int, error) {
         if start > end {
-            return -1, io.EOF
+            return -1, iterator.End
         }
         start++
         return start - 1, nil
@@ -61,7 +60,6 @@ package main
 
 import (
     "fmt"
-    "io"
     "os"
     "sort"
 
@@ -89,7 +87,7 @@ func SortedRange[K HasOrder, V any](m map[K]V) *iterator.Iterator[KeyValuePair[K
 
     return iterator.New(func() (KeyValuePair[K, V], error) {
         if len(keys) <= 0 {
-            return KeyValuePair[K, V]{}, io.EOF
+            return KeyValuePair[K, V]{}, iterator.End
         }
         value := KeyValuePair[K, V]{Key: keys[0], Value: m[keys[0]]}
         keys = keys[1:]
