@@ -1,6 +1,8 @@
 go-iterator
 ============
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/hymkor/go-iterator.svg)](https://pkg.go.dev/github.com/hymkor/go-iterator)
+
 A simple iterator supporter
 
 Example-1
